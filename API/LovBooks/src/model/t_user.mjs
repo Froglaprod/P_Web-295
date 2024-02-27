@@ -44,6 +44,7 @@ const UserModelTable = (sequelize, DataTypes) => {
         },
       },
     },
+    //Colonne créer automatiquement et ajouté à la table
     {
       timestamps: true,
       createdAt: "created",
