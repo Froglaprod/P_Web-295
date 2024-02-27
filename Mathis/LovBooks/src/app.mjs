@@ -1,6 +1,7 @@
 import express from "express";
 import { sequelize, initDB } from "./db/sequelize.mjs";
 import { booksRouter } from "./routes/bookRoutes.mjs";
+import { customerRouter } from "./routes/customerRoutes.mjsRoutes.mjs";
 
 const app = express();
 const port = 3420;
@@ -23,6 +24,8 @@ app.get("/api/", (req, res) => {
 })
 
 app.use("/api/books", booksRouter);
+
+app.use("/api/books", customerRouter);
 
 app.use(({res})=>{
     const message= "Impossible de trouver la ressource demandée! Vous pouvez essayer une autre URL."
