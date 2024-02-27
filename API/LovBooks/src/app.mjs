@@ -11,7 +11,7 @@ sequelize
  .authenticate()
  .then((_) => console.log("La connexion à la base de données a bien été établie"))
  .catch((error)=>console.error("Impossible de se connecter à la DB"))
-initDB();
+
 
 app.get("/", (req, res) => {
     res.send("Bienvenur sur l'API du projet LovBooks")
@@ -31,3 +31,6 @@ app.use(({res})=>{
 app.listen(port, () => {
     console.log(`L'API de LovBooks tourne sur le port http://localhost:${port}`);
 })
+
+//Initialisation de la db
+initDB();

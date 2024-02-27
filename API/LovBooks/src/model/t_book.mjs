@@ -60,10 +60,6 @@ const BookModelTable = (sequelize, DataTypes) => {
       summary: {
         type: DataTypes.TEXT,
       },
-      publisher_name: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
     },
     //Colonne créer automatiquement et ajouté à la table
     {

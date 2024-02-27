@@ -1,32 +1,41 @@
-import {DataTypes, Sequelize } from "sequelize";
-import { BookModel } from "../model/t_book.mjs";
+import { DataTypes, Sequelize } from "sequelize";
+import { BookModelTable } from "../model/t_book.mjs";
+import { books } from "./mock-book.mjs";
 
-const sequelize = new Sequelize (
-    "db_lovbooks",
-    "root",
-    "root",
-    {
-        host : "localhost",
-        dialect : "mysql",
-        port: 6033,
-        logging : false,
-    }
-)
-const Book = BookModel(sequelize, DataTypes);
+//Informations pour la connexion à la db
+const sequelize = new Sequelize("db_lovbooks", "root", "root", {
+  host: "localhost",
+  dialect: "mysql",
+  port: 6033,
+  logging: false,
+});
+const Book = BookModelTable(sequelize, DataTypes);
 
+//Synchronisation avec la db
 let initDB = () => {
-    //A
-    return sequelize.sync({ force: true }).then((_) => {
-      importBooks();
-      console.log("La base de données a bien été synchronisée");
-    });
-  };
+  // Force la synchro (supprime tout les données également)
+  return sequelize.sync({ force: true }).then((_) => {
+    importBooks();
+    console.log("La base de données a bien été synchronisée");
+  });
+};
 
+//Import de tous les livres du "mock-book"
 const importBooks = () => {
+  books.map((book) => {
     Book.create({
-        name: "Apocalypse",
-        pages: 666,
-    })
-}
+      //Données des champs
+      title: book.title,
+      category: book.category,
+      number_of_pages: book.number_of_pages,
+      year_of_publication: book.year_of_publication,
+      average_ratings: book.average_ratings,
+      cover_image: book.cover_image,
+      extract_pdf: book.extract_pdf,
+      summary: book.summary,
+      publisher_name: book.publisher_name,
+    }).then((product) => console.log(product.toJSON()));
+  });
+};
 
-export {sequelize, initDB, Book};
+export { sequelize, initDB, Book };
