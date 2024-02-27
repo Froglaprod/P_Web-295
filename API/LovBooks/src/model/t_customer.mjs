@@ -2,9 +2,9 @@ import { DataTypes } from "sequelize";
 import { sequelize } from "../db/sequelize.mjs";
 
 //Model de table de "user"
-const UserModelTable = (sequelize, DataTypes) => {
+const CustomerModelTable = (sequelize, DataTypes) => {
   return sequelize.define(
-    "USER",
+    "CUSTOMER",
     {
       id: {
         type: DataTypes.INTEGER,
@@ -53,4 +53,4 @@ const UserModelTable = (sequelize, DataTypes) => {
   );
 };
 
-export { UserModelTable };
+export { CustomerModelTable };

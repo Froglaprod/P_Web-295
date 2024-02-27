@@ -1,4 +1,4 @@
-let users = [
+let customers = [
   {
     id: 1,
     pseudo: "chatvert123",
@@ -61,4 +61,4 @@ let users = [
   },
 ];
 
-export { users };
+export { customers };
