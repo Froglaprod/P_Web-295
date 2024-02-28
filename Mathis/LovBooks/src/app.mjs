@@ -8,11 +8,11 @@ const port = 3420;
 app.use(express.json());
 //app.use("/api/login", loginRouter)
 
+//Authentification et synchronisation de la db
 sequelize
  .authenticate()
  .then((_) => console.log("La connexion à la base de données a bien été établie"))
  .catch((error)=>console.error("Impossible de se connecter à la DB"))
-//Synchronisation de la db
 initDB();
 
 app.get("/", (req, res) => {
@@ -23,10 +23,13 @@ app.get("/api/", (req, res) => {
     res.redirect(`http://localhost:${port}/`)
 })
 
+//Utilise la route pour les livres
 app.use("/api/books", booksRouter);
 
-app.use("/api/books", customerRouter);
+//Utilise la route pour les users
+app.use("/api/users", customerRouter);
 
+//Erreur 404
 app.use(({res})=>{
     const message= "Impossible de trouver la ressource demandée! Vous pouvez essayer une autre URL."
     res.status(404).json(message)
