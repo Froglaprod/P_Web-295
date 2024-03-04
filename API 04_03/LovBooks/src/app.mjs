@@ -1,9 +1,10 @@
 import express from "express";
+import swaggerUi from "swagger-ui-express";
 import { sequelize, initDB } from "./db/sequelize.mjs";
 import { booksRouter } from "./routes/bookRoutes.mjs";
 import { customersRouter } from "./routes/customerRoutes.mjs";
 import { loginRouter } from "./routes/login.mjs"; 
-
+import { swaggerSpec } from "./swagger.mjs";
 
 const app = express();
 const port = 3420;
@@ -28,6 +29,12 @@ app.use("/api/books", booksRouter);
 app.use("/api/login", loginRouter);
 //Utilise la route pour les users
 app.use("/api/users", customersRouter);
+
+app.use(  
+    "/api-docs",  
+    swaggerUi.serve,  
+    swaggerUi.setup(swaggerSpec, { explorer: true }) 
+);
 
 app.use(({res})=>{
     const message= "Impossible de trouver la ressource demandée! Vous pouvez essayer une autre URL."

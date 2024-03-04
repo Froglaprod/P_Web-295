@@ -25,13 +25,14 @@ const CustomerModelTable = (sequelize, DataTypes) => {
       },
       date_enter: {
         type: DataTypes.DATE,
-        allowNull: false,
+        allowNull: true,
         //Validation requisent
         validate: {
           isDate: {
             msg: "La date doit être au format valide.",
           },
         },
+
       },
       password: {
         type: DataTypes.STRING,

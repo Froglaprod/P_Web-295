@@ -3,10 +3,19 @@ import { success } from "./helper.mjs";
 import { Book } from "../db/sequelize.mjs";
 import { ValidationError, Op } from "sequelize";
 import {auth} from "../auth/auth.mjs";
+import { books } from "../db/mock-book.mjs";
 
 const booksRouter = express();
 
 booksRouter.get("/", auth,(req, res) => {
+    if(req.query.title){
+        return Book.findAll({
+            where:{title : {[Op.like]: `%${req.query.title}%`}},
+        }).then((books)=>{
+            const message = `Il y a ${products.length} produits qui correspondent au terme de la recherche`;
+            res.json(success(message, books))
+        })
+    }
     return Book.findAll()
     .then((books) => {
       const message = "La liste des livres a bien été récupérée";

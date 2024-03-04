@@ -50,7 +50,9 @@ customersRouter.get("/:id", (req, res) => {
 //Routes POST user
 customersRouter.post("/", (req, res) => {
   //Créer un nouveaux user a partir des données
-  Customer.create(req.body).then((createdUser) => {
+  //req.params.date_enter= new Data();
+  Customer.create(req.bod).then((createdUser) => {
+    //createdUser.date_enter = new Data()
     const message = `Le user ${createdUser.pseudo} a bien été créé !`;
     res.json(success(message, createdUser));
   });
@@ -91,7 +93,7 @@ customersRouter.delete("/:id", (req, res) => {
             "Le user demandé n'existe pas. Merci de réessayer avec un autre identifiant";
           return res.status(404).json({ message });
         }
-        return Book.destroy({
+        return Customer.destroy({
           where: { id: deletedCustomer.id },
           //Delete de l'user
         }).then((_) => {
