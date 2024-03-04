@@ -94,6 +94,10 @@ const BookModelTable = (sequelize, DataTypes) => {
           },
         },
       },
+      category_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
       summary: {
         type: DataTypes.TEXT,
         // Validation requisent

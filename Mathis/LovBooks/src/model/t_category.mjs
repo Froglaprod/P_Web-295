@@ -28,6 +28,7 @@ const CategoryModelTable = (sequelize, DataTypes) => {
       timestamps: true,
       createdAt: "created",
       updatedAt: false,
+      tableName: "t_category"
     }
   );
 };

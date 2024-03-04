@@ -34,15 +34,24 @@ const Publisher = PublisherModelTable(sequelize, DataTypes);
 const Category = CategoryModelTable(sequelize, DataTypes);
 const Comment = CommentModelTable(sequelize, DataTypes);
 
+//Liaisons entre models
+//Livres / Categories
+Book.belongsTo(Category, {
+  foreignKey: "category_id",
+});
+Category.hasMany(Book, {
+  foreignKey: "category_id",
+});
+
 // Synchronisation avec la db
 let initDB = () => {
   // Force la synchronisation (supprime toutes les données également)
   return sequelize.sync({ force: true }).then((_) => {
+    importCategory();
     importBooks();
     importCustomers();
     importAssessment();
     importComment();
-    importCategory();
     importPublisher();
     importAuthors();
     console.log("La base de données a bien été synchronisée");
@@ -55,7 +64,7 @@ const importBooks = () => {
     Book.create({
       // Données des champs
       title: book.title,
-      category: book.category,
+      category_id: book.category_id,
       number_of_pages: book.number_of_pages,
       year_of_publication: book.year_of_publication,
       average_ratings: book.average_ratings,
