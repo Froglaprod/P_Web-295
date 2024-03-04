@@ -81,6 +81,7 @@ customersRouter.put("/:id", (req, res) => {
     });
 });
 
+//Routes DELETE user
 customersRouter.delete("/:id", (req, res) => {
     // Rechercher un user par sa clé primaire (id)
     Customer.findByPk(req.params.id)

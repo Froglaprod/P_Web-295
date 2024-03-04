@@ -1,55 +1,41 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../db/sequelize.mjs";
 
-// Modèle de table "t_customer"
-const CustomerModelTable = (sequelize, DataTypes) => {
+const PublisherModelTable = (sequelize, DataTypes) => {
   return sequelize.define(
-    "t_customer",
+    "t_publisher",
     {
       id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
+        allowNull: false,
       },
-      pseudo: {
+      name: {
         type: DataTypes.STRING,
         allowNull: false,
         // Validation requisent
         validate: {
           notEmpty: {
             // Message d'erreur
-            msg: "Le pseudo ne peut pas être vide.",
-          },
-          noSpace: {
-            args: [/\s/],
-            msg: "Le pseudo ne peut pas contenir d'espaces.",
+            msg: "Le nom de l'éditeur ne peut pas être vide.",
           },
         },
       },
-      date_enter: {
+      edition_date: {
         type: DataTypes.DATE,
         allowNull: true,
         // Validation requisent
         validate: {
           isDate: {
-            msg: "La date doit être au format valide.",
-          },
-        },
-      },
-      password: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        // Validation requisent
-        validate: {
-          notEmpty: {
             // Message d'erreur
-            msg: "Le mot de passe ne peut pas être vide.",
+            msg: "La date d'édition doit être au format valide.",
           },
         },
       },
     },
-    // Colonne créer automiquement
     {
+      // Colonne créer automiquement
       timestamps: true,
       createdAt: "created",
       updatedAt: false,
@@ -57,4 +43,4 @@ const CustomerModelTable = (sequelize, DataTypes) => {
   );
 };
 
-export { CustomerModelTable };
+export { PublisherModelTable };

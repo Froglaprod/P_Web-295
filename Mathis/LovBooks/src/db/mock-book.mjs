@@ -2,7 +2,6 @@ let books = [
   {
     id: 1,
     title: "Le Seigneur des Anneaux",
-    category: "Fantasy",
     number_of_pages: 500,
     year_of_publication: 1954,
     average_ratings: null,
@@ -13,7 +12,6 @@ let books = [
   {
     id: 2,
     title: "1984",
-    category: "Dystopian",
     number_of_pages: 300,
     year_of_publication: 1949,
     average_ratings: null,
@@ -24,7 +22,6 @@ let books = [
   {
     id: 3,
     title: "Orgueil et Préjugés",
-    category: "Romance",
     number_of_pages: 400,
     year_of_publication: 1813,
     average_ratings: null,
@@ -35,7 +32,6 @@ let books = [
   {
     id: 4,
     title: "Fondation",
-    category: "Science Fiction",
     number_of_pages: 350,
     year_of_publication: 1951,
     average_ratings: null,
@@ -46,7 +42,6 @@ let books = [
   {
     id: 5,
     title: "Crime et Châtiment",
-    category: "Mystery",
     number_of_pages: 450,
     year_of_publication: 1866,
     average_ratings: null,
@@ -57,7 +52,6 @@ let books = [
   {
     id: 6,
     title: "Les Misérables",
-    category: "Romance",
     number_of_pages: 1200,
     year_of_publication: 1862,
     average_ratings: null,
@@ -68,7 +62,6 @@ let books = [
   {
     id: 7,
     title: "Le Petit Prince",
-    category: "Fantasy",
     number_of_pages: 100,
     year_of_publication: 1943,
     average_ratings: null,
@@ -79,7 +72,6 @@ let books = [
   {
     id: 8,
     title: "La Ferme des Animaux",
-    category: "Science Fiction",
     number_of_pages: 200,
     year_of_publication: 1945,
     average_ratings: null,
@@ -90,7 +82,6 @@ let books = [
   {
     id: 9,
     title: "Le Comte de Monte-Cristo",
-    category: "Fantasy",
     number_of_pages: 900,
     year_of_publication: 1844,
     average_ratings: null,
@@ -101,7 +92,6 @@ let books = [
   {
     id: 10,
     title: "Cendrillon",
-    category: "Romance",
     number_of_pages: 50,
     year_of_publication: 1697,
     average_ratings: null,
@@ -112,7 +102,6 @@ let books = [
   {
     id: 11,
     title: "Harry Potter à l'école des sorciers",
-    category: "Fantasy",
     number_of_pages: 320,
     year_of_publication: 1997,
     average_ratings: null,
@@ -123,7 +112,6 @@ let books = [
   {
     id: 12,
     title: "Neuromancien",
-    category: "Science Fiction",
     number_of_pages: 270,
     year_of_publication: 1984,
     average_ratings: null,
@@ -134,7 +122,6 @@ let books = [
   {
     id: 13,
     title: "Le Nom du Vent",
-    category: "Fantasy",
     number_of_pages: 662,
     year_of_publication: 2007,
     average_ratings: null,
@@ -145,7 +132,6 @@ let books = [
   {
     id: 14,
     title: "Les Hauts de Hurlevent",
-    category: "Romance",
     number_of_pages: 416,
     year_of_publication: 1847,
     average_ratings: null,
@@ -156,7 +142,6 @@ let books = [
   {
     id: 15,
     title: "Le Meilleur des mondes",
-    category: "Dystopian",
     number_of_pages: 288,
     year_of_publication: 1932,
     average_ratings: null,
@@ -167,7 +152,6 @@ let books = [
   {
     id: 16,
     title: "Le Parrain",
-    category: "Mystery",
     number_of_pages: 448,
     year_of_publication: 1969,
     average_ratings: null,
@@ -178,7 +162,6 @@ let books = [
   {
     id: 17,
     title: "Les Trois Mousquetaires",
-    category: "Adventure",
     number_of_pages: 704,
     year_of_publication: 1844,
     average_ratings: null,
@@ -189,7 +172,6 @@ let books = [
   {
     id: 18,
     title: "Le Portrait de Dorian Gray",
-    category: "Mystery",
     number_of_pages: 239,
     year_of_publication: 1890,
     average_ratings: null,
@@ -200,7 +182,6 @@ let books = [
   {
     id: 19,
     title: "Le Hobbit",
-    category: "Fantasy",
     number_of_pages: 310,
     year_of_publication: 1937,
     average_ratings: null,
@@ -211,7 +192,6 @@ let books = [
   {
     id: 20,
     title: "Le Comte de Monte-Cristo",
-    category: "Adventure",
     number_of_pages: 900,
     year_of_publication: 1844,
     average_ratings: null,
@@ -222,7 +202,6 @@ let books = [
   {
     id: 21,
     title: "Les Piliers de la Terre",
-    category: "Historical Fiction",
     number_of_pages: 973,
     year_of_publication: 1989,
     average_ratings: null,
@@ -233,7 +212,6 @@ let books = [
   {
     id: 22,
     title: "Le Vieil Homme et la Mer",
-    category: "Adventure",
     number_of_pages: 127,
     year_of_publication: 1952,
     average_ratings: null,
@@ -244,7 +222,6 @@ let books = [
   {
     id: 23,
     title: "Le Chardonneret",
-    category: "Mystery",
     number_of_pages: 864,
     year_of_publication: 2013,
     average_ratings: null,
@@ -255,7 +232,6 @@ let books = [
   {
     id: 24,
     title: "Frankenstein",
-    category: "Science Fiction",
     number_of_pages: 280,
     year_of_publication: 1818,
     average_ratings: null,
@@ -267,7 +243,6 @@ let books = [
   {
     id: 25,
     title: "Dracula",
-    category: "Mystery",
     number_of_pages: 418,
     year_of_publication: 1897,
     average_ratings: null,
@@ -279,7 +254,6 @@ let books = [
   {
     id: 26,
     title: "Les Raisins de la colère",
-    category: "Historical Fiction",
     number_of_pages: 464,
     year_of_publication: 1939,
     average_ratings: null,
@@ -290,7 +264,6 @@ let books = [
   {
     id: 27,
     title: "Les Cinq Filles de Mrs Bennet",
-    category: "Romance",
     number_of_pages: 400,
     year_of_publication: 1813,
     average_ratings: null,
@@ -302,7 +275,6 @@ let books = [
   {
     id: 28,
     title: "Le Portrait de Dorian Gray",
-    category: "Mystery",
     number_of_pages: 239,
     year_of_publication: 1890,
     average_ratings: null,
@@ -313,7 +285,6 @@ let books = [
   {
     id: 29,
     title: "Voyage au centre de la Terre",
-    category: "Science Fiction",
     number_of_pages: 240,
     year_of_publication: 1864,
     average_ratings: null,
@@ -324,7 +295,6 @@ let books = [
   {
     id: 30,
     title: "L'Étranger",
-    category: "Mystery",
     number_of_pages: 123,
     year_of_publication: 1942,
     average_ratings: null,
@@ -335,7 +305,6 @@ let books = [
   {
     id: 31,
     title: "Le Silence des Agneaux",
-    category: "Mystery",
     number_of_pages: 348,
     year_of_publication: 1988,
     average_ratings: null,
@@ -346,7 +315,6 @@ let books = [
   {
     id: 32,
     title: "Le Guépard",
-    category: "Historical Fiction",
     number_of_pages: 436,
     year_of_publication: 1958,
     average_ratings: null,
@@ -358,7 +326,6 @@ let books = [
   {
     id: 33,
     title: "Le Maître et Marguerite",
-    category: "Fantasy",
     number_of_pages: 384,
     year_of_publication: 1967,
     average_ratings: null,
@@ -369,7 +336,6 @@ let books = [
   {
     id: 34,
     title: "Les Misérables",
-    category: "Historical Fiction",
     number_of_pages: 1488,
     year_of_publication: 1862,
     average_ratings: null,
@@ -381,7 +347,6 @@ let books = [
   {
     id: 35,
     title: "Les Cerfs-volants de Kaboul",
-    category: "Dystopian",
     number_of_pages: 372,
     year_of_publication: 2003,
     average_ratings: null,
@@ -392,7 +357,6 @@ let books = [
   {
     id: 36,
     title: "Le Comte de Monte-Cristo",
-    category: "Adventure",
     number_of_pages: 900,
     year_of_publication: 1844,
     average_ratings: null,
@@ -403,7 +367,6 @@ let books = [
   {
     id: 37,
     title: "Dune",
-    category: "Science Fiction",
     number_of_pages: 694,
     year_of_publication: 1965,
     average_ratings: null,
@@ -414,7 +377,6 @@ let books = [
   {
     id: 38,
     title: "Le Portrait de Dorian Gray",
-    category: "Mystery",
     number_of_pages: 239,
     year_of_publication: 1890,
     average_ratings: null,
@@ -425,7 +387,6 @@ let books = [
   {
     id: 39,
     title: "Le Maître des illusions",
-    category: "Fantasy",
     number_of_pages: 640,
     year_of_publication: 1995,
     average_ratings: null,
@@ -436,7 +397,6 @@ let books = [
   {
     id: 40,
     title: "Le Guerrier Pacifique",
-    category: "Romance",
     number_of_pages: 216,
     year_of_publication: 1980,
     average_ratings: null,
@@ -447,7 +407,6 @@ let books = [
   {
     id: 41,
     title: "La Stratégie Ender",
-    category: "Science Fiction",
     number_of_pages: 324,
     year_of_publication: 1985,
     average_ratings: null,
@@ -458,7 +417,6 @@ let books = [
   {
     id: 42,
     title: "Le Portrait de Dorian Gray",
-    category: "Mystery",
     number_of_pages: 239,
     year_of_publication: 1890,
     average_ratings: null,
@@ -469,7 +427,6 @@ let books = [
   {
     id: 43,
     title: "Les Fourmis",
-    category: "Fantasy",
     number_of_pages: 320,
     year_of_publication: 1991,
     average_ratings: null,
@@ -481,7 +438,6 @@ let books = [
   {
     id: 44,
     title: "Le Comte de Monte-Cristo",
-    category: "Adventure",
     number_of_pages: 900,
     year_of_publication: 1844,
     average_ratings: null,
@@ -492,7 +448,6 @@ let books = [
   {
     id: 45,
     title: "Le Meilleur des mondes",
-    category: "Dystopian",
     number_of_pages: 288,
     year_of_publication: 1932,
     average_ratings: null,
@@ -503,7 +458,6 @@ let books = [
   {
     id: 46,
     title: "La Nuit des temps",
-    category: "Science Fiction",
     number_of_pages: 480,
     year_of_publication: 1968,
     average_ratings: null,
@@ -514,7 +468,6 @@ let books = [
   {
     id: 47,
     title: "Les Piliers de la Terre",
-    category: "Historical Fiction",
     number_of_pages: 973,
     year_of_publication: 1989,
     average_ratings: null,
@@ -525,7 +478,6 @@ let books = [
   {
     id: 48,
     title: "La Ferme des Animaux",
-    category: "Satire",
     number_of_pages: 200,
     year_of_publication: 1945,
     average_ratings: null,
@@ -536,7 +488,6 @@ let books = [
   {
     id: 49,
     title: "La Marque des anges",
-    category: "Mystery",
     number_of_pages: 384,
     year_of_publication: 2013,
     average_ratings: null,
@@ -547,7 +498,6 @@ let books = [
   {
     id: 50,
     title: "Le Chant des sirènes",
-    category: "Fantasy",
     number_of_pages: 432,
     year_of_publication: 2004,
     average_ratings: null,
