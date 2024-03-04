@@ -4,7 +4,7 @@ import { sequelize } from "../db/sequelize.mjs";
 //Model de table de "user"
 const CustomerModelTable = (sequelize, DataTypes) => {
   return sequelize.define(
-    "CUSTOMER",
+    "t_customer",
     {
       id: {
         type: DataTypes.INTEGER,
