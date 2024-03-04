@@ -1,10 +1,23 @@
+// Import des models
 import { DataTypes, Sequelize } from "sequelize";
 import { BookModelTable } from "../model/t_book.mjs";
 import { CustomerModelTable } from "../model/t_customer.mjs";
-import { customers } from "./mock-customer.mjs";
-import { books } from "./mock-book.mjs";
+import { AssessmentModelTable } from "../model/t_assessment.mjs"; 
+import { AuthorModelTable } from "../model/t_author.mjs"; 
+import { PublisherModelTable } from "../model/t_publisher.mjs"; 
+import { CategoryModelTable } from "../model/t_category.mjs"; 
+import { CommentModelTable } from "../model/t_comment.mjs"; 
 
-//Informations pour la connexion à la db
+// Import de données
+import { books } from "./mock-book.mjs";
+import { customers } from "./mock-customer.mjs";
+import { authors } from "./mock-author.mjs";
+import { publishers } from "./mock-publisher.mjs";
+import { comments } from "./mock-comment.mjs";
+import { categorys } from "./mock-category.mjs";
+import { assessments } from "./mock-assessment.mjs";
+
+// Informations pour la connexion à la db
 const sequelize = new Sequelize("db_lovbooks", "root", "root", {
   host: "localhost",
   dialect: "mysql",
@@ -12,27 +25,46 @@ const sequelize = new Sequelize("db_lovbooks", "root", "root", {
   logging: false,
 });
 
+// Création des modèles
 const Book = BookModelTable(sequelize, DataTypes);
 const Customer = CustomerModelTable(sequelize, DataTypes);
+const Assessment = AssessmentModelTable(sequelize, DataTypes);
+const Author = AuthorModelTable(sequelize, DataTypes);
+const Publisher = PublisherModelTable(sequelize, DataTypes);
+const Category = CategoryModelTable(sequelize, DataTypes);
+const Comment = CommentModelTable(sequelize, DataTypes);
 
+//Liaisons entre models
+//Livres / Categories
+Book.belongsTo(Category, {
+  foreignKey: "category_id",
+});
+Category.hasMany(Book, {
+  foreignKey: "category_id",
+});
 
-//Synchronisation avec la db
+// Synchronisation avec la db
 let initDB = () => {
-  // Force la synchro (supprime tout les données également)
+  // Force la synchronisation (supprime toutes les données également)
   return sequelize.sync({ force: true }).then((_) => {
+    importCategory();
     importBooks();
     importCustomers();
+    importAssessment();
+    importComment();
+    importPublisher();
+    importAuthors();
     console.log("La base de données a bien été synchronisée");
   });
 };
 
-//Import de tous les livres du "mock-book"
+// Import de tous les livres du "mock-book"
 const importBooks = () => {
   books.map((book) => {
     Book.create({
-      //Données des champs
+      // Données des champs
       title: book.title,
-      category: book.category,
+      category_id: book.category_id,
       number_of_pages: book.number_of_pages,
       year_of_publication: book.year_of_publication,
       average_ratings: book.average_ratings,
@@ -44,11 +76,11 @@ const importBooks = () => {
   });
 };
 
-//Import de tous les utilisateurs du "mock-customer"
+// Import de tous les utilisateurs du "mock-customer"
 const importCustomers = () => {
   customers.map((customer) => {
     Customer.create({
-      //Données des champs
+      // Données des champs
       pseudo: customer.pseudo,
       date_enter: customer.date_enter,
       password: customer.password,
@@ -56,4 +88,56 @@ const importCustomers = () => {
   });
 };
 
-export { sequelize, initDB, Book, Customer };
+// Import de tous les auteur du "mock-author"
+const importAuthors = () => {
+  authors.map((author) => {
+    Author.create({
+      // Données des champs
+      first_name: author.first_name,
+      name: author.name
+    }).then((author) => console.log(author.toJSON()));
+  });
+};
+
+// Import de tous les editeurs du "mock-publisher"
+const importPublisher = () => {
+  publishers.map((publisher) => {
+    Publisher.create({
+      // Données des champs
+      edition_date: publisher.edition_date,
+      name: publisher.name
+    }).then((publisher) => console.log(publisher.toJSON()));
+  });
+};
+
+// Import de tous les commentaires du "mock-comment"
+const importComment = () => {
+  comments.map((comment) => {
+    Comment.create({
+      // Données des champs
+      created_at: comment.created_at,
+      content: comment.content
+    }).then((comment) => console.log(comment.toJSON()));
+  });
+};
+
+// Import de tous les notes du "mock-assessment"
+const importAssessment = () => {
+  assessments.map((assessment) => {
+    Assessment.create({
+      // Données des champs
+      assessment: assessment.assessment,
+    }).then((assessment) => console.log(assessment.toJSON()));
+  });
+};
+
+// Import de tous les categories du "mock-category"
+const importCategory = () => {
+  categorys.map((category) => {
+    Category.create({
+      // Données des champs
+      name: category.name,
+    }).then((category) => console.log(category.toJSON()));
+  });
+};
+export { sequelize, Book, Customer, Assessment, Author, Publisher, Category, Comment, initDB };
