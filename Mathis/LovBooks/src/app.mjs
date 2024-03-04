@@ -1,7 +1,7 @@
 import express from "express";
 import { sequelize, initDB } from "./db/sequelize.mjs";
 import { booksRouter } from "./routes/bookRoutes.mjs";
-import { customerRouter } from "./routes/customerRoutes.mjsRoutes.mjs";
+import { customersRouter } from "./routes/customerRoutes.mjs";
 
 const app = express();
 const port = 3420;
@@ -27,7 +27,7 @@ app.get("/api/", (req, res) => {
 app.use("/api/books", booksRouter);
 
 //Utilise la route pour les users
-app.use("/api/users", customerRouter);
+app.use("/api/users", customersRouter);
 
 //Erreur 404
 app.use(({res})=>{

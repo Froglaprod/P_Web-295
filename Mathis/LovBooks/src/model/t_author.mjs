@@ -22,7 +22,7 @@ const AuthorModelTable = (sequelize, DataTypes) => {
           },
         },
       },
-      last_name: {
+      name: {
         type: DataTypes.STRING,
         allowNull: false,
         // Validation requisent

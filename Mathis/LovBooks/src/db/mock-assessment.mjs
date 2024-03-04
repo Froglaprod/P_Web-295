@@ -1,27 +1,27 @@
 let assessments = [
   {
-    assessment: 9,
+    assessment: 3,
   },
   {
-    assessment: 6,
+    assessment: 1,
   },
   {
-    assessment: 10,
+    assessment: 2,
   },
   {
     assessment: 4,
   },
   {
-    assessment: 8,
+    assessment: 4,
   },
   {
     assessment: 3,
   },
   {
-    assessment: 7,
+    assessment: 3,
   },
   {
-    assessment: 9,
+    assessment: 5,
   },
 ];
 

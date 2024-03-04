@@ -20,8 +20,8 @@ const CustomerModelTable = (sequelize, DataTypes) => {
             // Message d'erreur
             msg: "Le pseudo ne peut pas être vide.",
           },
-          noSpace: {
-            args: [/\s/],
+          is: {
+            args: /^[^\s]+$/,
             msg: "Le pseudo ne peut pas contenir d'espaces.",
           },
         },
