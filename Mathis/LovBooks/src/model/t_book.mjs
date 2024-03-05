@@ -99,7 +99,7 @@ const BookModelTable = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      autor_id: {
+      author_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },

@@ -22,7 +22,7 @@ const CommentModelTable = (sequelize, DataTypes) => {
           },
         },
       },
-      date: {
+      created_at: {
         type: DataTypes.DATE,
         allowNull: true,
         validate: {

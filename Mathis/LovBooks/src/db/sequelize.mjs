@@ -87,12 +87,12 @@ Customer.hasMany(Book, {
 let initDB = () => {
   // Force la synchronisation (supprime toutes les données également)
   return sequelize.sync({ force: true }).then((_) => {
+    importAuthors();
     importCategory();
     importCustomers();
     importAssessment();
     importComment();
     importPublisher();
-    importAuthors();
     importBooks();
     console.log("La base de données a bien été synchronisée");
   });
@@ -105,6 +105,11 @@ const importBooks = () => {
       // Données des champs
       title: book.title,
       category_id: book.category_id,
+      author_id: book.author_id,
+      assessment_id: book.assessment_id,
+      comment_id: book.comment_id,
+      publisher_id: book.publisher_id,
+      customer_id: book.customer_id,
       number_of_pages: book.number_of_pages,
       year_of_publication: book.year_of_publication,
       average_ratings: book.average_ratings,
@@ -167,6 +172,7 @@ const importAssessment = () => {
     Assessment.create({
       // Données des champs
       assessment: assessment.assessment,
+      created_at: assessment.created_at,
     }).then((assessment) => console.log(assessment.toJSON()));
   });
 };

@@ -1,7 +1,7 @@
-import express, { Publisher } from "express";
+import express from "express";
 import { success } from "./helper.mjs";
 import { Publisher } from "../db/sequelize.mjs";
-import { publishers } from "../db/mock-publisher.mjs";
+
 
 //Instance de express, afin de créer des Publishers
 const publisherRouter = express();
