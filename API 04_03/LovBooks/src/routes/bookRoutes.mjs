@@ -12,7 +12,7 @@ booksRouter.get("/", auth,(req, res) => {
         return Book.findAll({
             where:{title : {[Op.like]: `%${req.query.title}%`}},
         }).then((books)=>{
-            const message = `Il y a ${products.length} produits qui correspondent au terme de la recherche`;
+            const message = `Il y a ${books.length} livres qui correspondent au terme de la recherche`;
             res.json(success(message, books))
         })
     }
