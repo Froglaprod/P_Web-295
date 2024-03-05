@@ -49,37 +49,37 @@ categorysRouter.get("/:id", (req, res) => {
     });
 });
 
-// Get liste livre par apport a une catégorie
-categorysRouter.get("/:name/books", async (req, res) => {
-  try {
-    const categoryName = req.params.name;
-    // Attend que la promesse soit retourner
-    const category = await Category.findOne({
-      // Compare la catégorie avec les info dans la t_book
-      where: {
-        name: categoryName,
-      },
-      include: {
-        model: Book,
-      },
-    });
-    // Gestion erreru 404
-    if (!category) {
-      const message =
-        "La catégorie demandée n'existe pas. Merci de réessayer avec un autre nom de catégorie";
-      return res.status(404).json({ message });
-    }
-    //Résultat
-    const books = category.Books;
-    const message = `Liste des livres de la catégorie ${category.name}`;
-    res.json(success(message, books));
+// Get liste livre par rapport à une catégorie
+categorysRouter.get("/:name/books", (req, res) => {
+  const categoryName = req.params.name;
 
-    // Gestion erreru 500
-  } catch (error) {
-    const message =
-      "Une erreur est survenue lors de la récupération des livres de la catégorie. Merci de réessayer dans quelques instants.";
-    res.status(500).json({ message, data: error });
-  }
+  Category.findOne({
+    // Compare la catégorie avec les infos dans la t_book
+    where: {
+      name: categoryName,
+    },
+    include: {
+      model: Book,
+    },
+  })
+    .then((category) => {
+      // Gestion erreur 404
+      if (!category) {
+        const message =
+          "La catégorie demandée n'existe pas. Merci de réessayer avec un autre nom de catégorie";
+        return res.status(404).json({ message });
+      }
+      // Résultat
+      const books = category.Books;
+      const message = `Liste des livres de la catégorie ${category.name}`;
+      res.json(success(message, books));
+    })
+    // Gestion erreur 500
+    .catch((error) => {
+      const message =
+        "Une erreur est survenue lors de la récupération des livres de la catégorie. Merci de réessayer dans quelques instants.";
+      res.status(500).json({ message, data: error });
+    });
 });
 
 //Routes POST category
