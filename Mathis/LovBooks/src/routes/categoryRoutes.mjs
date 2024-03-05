@@ -1,6 +1,8 @@
 import express from "express";
 import { success } from "./helper.mjs";
 import { Category } from "../db/sequelize.mjs";
+//Permet d'utilise des element de comparaison
+import { Op } from "sequelize";
 
 //Instance de express, afin de créer des routes
 const categorysRouter = express();
@@ -47,6 +49,39 @@ categorysRouter.get("/:id", (req, res) => {
     });
 });
 
+// Get liste livre par apport a une catégorie
+categorysRouter.get("/:name/books", async (req, res) => {
+  try {
+    const categoryName = req.params.name;
+    // Attend que la promesse soit retourner
+    const category = await Category.findOne({
+      // Compare la catégorie avec les info dans la t_book
+      where: {
+        name: categoryName,
+      },
+      include: {
+        model: Book,
+      },
+    });
+    // Gestion erreru 404
+    if (!category) {
+      const message =
+        "La catégorie demandée n'existe pas. Merci de réessayer avec un autre nom de catégorie";
+      return res.status(404).json({ message });
+    }
+    //Résultat
+    const books = category.Books;
+    const message = `Liste des livres de la catégorie ${category.name}`;
+    res.json(success(message, books));
+
+    // Gestion erreru 500
+  } catch (error) {
+    const message =
+      "Une erreur est survenue lors de la récupération des livres de la catégorie. Merci de réessayer dans quelques instants.";
+    res.status(500).json({ message, data: error });
+  }
+});
+
 //Routes POST category
 categorysRouter.post("/", (req, res) => {
   //Créer un nouveaux category a partir des données
@@ -83,29 +118,29 @@ categorysRouter.put("/:id", (req, res) => {
 
 //Routes DELETE category
 categorysRouter.delete("/:id", (req, res) => {
-    // Rechercher un category par sa clé primaire (id)
-    Category.findByPk(req.params.id)
-      .then((deletedCategory) => {
-        //Gestion erreur 400
-        if (deletedCategory === null) {
-          const message =
-            "Le category demandé n'existe pas. Merci de réessayer avec un autre identifiant";
-          return res.status(404).json({ message });
-        }
-        return Book.destroy({
-          where: { id: deletedCategory.id },
-          //Delete de l'category
-        }).then((_) => {
-          const message = `Le category ${deletedCategory.name} a bien été supprimé !`;
-          res.json(success(message, deletedCategory));
-        });
-      })
-      //Gestion erreur 500
-      .catch((error) => {
+  // Rechercher un category par sa clé primaire (id)
+  Category.findByPk(req.params.id)
+    .then((deletedCategory) => {
+      //Gestion erreur 400
+      if (deletedCategory === null) {
         const message =
-          "Le category n'a pas pu être supprimé. Merci de réessayer dans quelques instants";
-        res.status(500).json({ message, data: error });
+          "Le category demandé n'existe pas. Merci de réessayer avec un autre identifiant";
+        return res.status(404).json({ message });
+      }
+      return Category.destroy({
+        where: { id: deletedCategory.id },
+        //Delete de l'category
+      }).then((_) => {
+        const message = `Le category ${deletedCategory.name} a bien été supprimé !`;
+        res.json(success(message, deletedCategory));
       });
-  });
-  
-  export { categorysRouter };
+    })
+    //Gestion erreur 500
+    .catch((error) => {
+      const message =
+        "Le category n'a pas pu être supprimé. Merci de réessayer dans quelques instants";
+      res.status(500).json({ message, data: error });
+    });
+});
+
+export { categorysRouter };
