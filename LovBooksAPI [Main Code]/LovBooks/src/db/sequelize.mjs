@@ -2,11 +2,11 @@
 import { DataTypes, Sequelize } from "sequelize";
 import { BookModelTable } from "../model/t_book.mjs";
 import { CustomerModelTable } from "../model/t_customer.mjs";
-import { AssessmentModelTable } from "../model/t_assessment.mjs"; 
-import { AuthorModelTable } from "../model/t_author.mjs"; 
-import { PublisherModelTable } from "../model/t_publisher.mjs"; 
-import { CategoryModelTable } from "../model/t_category.mjs"; 
-import { CommentModelTable } from "../model/t_comment.mjs"; 
+import { AssessmentModelTable } from "../model/t_assessment.mjs";
+import { AuthorModelTable } from "../model/t_author.mjs";
+import { PublisherModelTable } from "../model/t_publisher.mjs";
+import { CategoryModelTable } from "../model/t_category.mjs";
+import { CommentModelTable } from "../model/t_comment.mjs";
 
 // Import de données
 import { books } from "./mock-book.mjs";
@@ -87,12 +87,12 @@ Customer.hasMany(Book, {
 let initDB = () => {
   // Force la synchronisation (supprime toutes les données également)
   return sequelize.sync({ force: true }).then((_) => {
+    importAuthors();
     importCategory();
     importCustomers();
     importAssessment();
     importComment();
     importPublisher();
-    importAuthors();
     importBooks();
     console.log("La base de données a bien été synchronisée");
   });
@@ -105,6 +105,11 @@ const importBooks = () => {
       // Données des champs
       title: book.title,
       category_id: book.category_id,
+      author_id: book.author_id,
+      assessment_id: book.assessment_id,
+      comment_id: book.comment_id,
+      publisher_id: book.publisher_id,
+      customer_id: book.customer_id,
       number_of_pages: book.number_of_pages,
       year_of_publication: book.year_of_publication,
       average_ratings: book.average_ratings,
@@ -116,23 +121,17 @@ const importBooks = () => {
   });
 };
 
-
 // Import de tous les utilisateurs du "mock-customer"
-const importCustomers = () => {  
+const importCustomers = () => {
   customers.map((customer) => {
-    bcrypt    
-    .hash(customer.password, 10)    
-    .then((hash) =>      
-      Customer.create({        
-        pseudo: customer.pseudo, 
-        date_enter : customer.date_enter,       
-        password: hash,      
-        })    
-    )    
-    .then((Customer) => console.log(Customer.toJSON())); 
-  })
+    Customer.create({
+      // Données des champs
+      pseudo: customer.pseudo,
+      date_enter: customer.date_enter,
+      password: customer.password,
+    }).then((customer) => console.log(customer.toJSON()));
+  });
 };
-
 
 // Import de tous les auteur du "mock-author"
 const importAuthors = () => {
@@ -161,6 +160,7 @@ const importComment = () => {
   comments.map((comment) => {
     Comment.create({
       // Données des champs
+      customer_id: comment.customer_id,
       created_at: comment.created_at,
       content: comment.content
     }).then((comment) => console.log(comment.toJSON()));
@@ -172,7 +172,9 @@ const importAssessment = () => {
   assessments.map((assessment) => {
     Assessment.create({
       // Données des champs
+      customer_id: assessment.customer_id,
       assessment: assessment.assessment,
+      created_at: assessment.created_at,
     }).then((assessment) => console.log(assessment.toJSON()));
   });
 };

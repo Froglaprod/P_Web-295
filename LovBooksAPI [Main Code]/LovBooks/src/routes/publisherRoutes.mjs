@@ -1,13 +1,22 @@
-import express, { Publisher } from "express";
+import express from "express";
 import { success } from "./helper.mjs";
 import { Publisher } from "../db/sequelize.mjs";
-import { publishers } from "../db/mock-publisher.mjs";
+import { ValidationError, Op } from "sequelize";
+
 
 //Instance de express, afin de créer des Publishers
 const publisherRouter = express();
 
 //Publishers GET liste Publisher
 publisherRouter.get("/", (req, res) => {
+  if(req.query.name){
+    return Publisher.findAll({
+        where:{name : {[Op.like]: `%${req.query.name}%`}},
+    }).then((publishers)=>{
+        const message = `Il y a ${publishers.length} publishers qui correspondent au terme de la recherche`;
+        res.json(success(message, publishers))
+    })
+}
   return (
     Publisher.findAll()
       //Récupération liste Publisher
@@ -93,7 +102,7 @@ publisherRouter.delete("/:id", (req, res) => {
             "Le Publisher demandé n'existe pas. Merci de réessayer avec un autre identifiant";
           return res.status(404).json({ message });
         }
-        return Book.destroy({
+        return Publisher.destroy({
           where: { id: deletedPublisher.id },
           //Delete de l'Publisher
         }).then((_) => {

@@ -1,18 +1,28 @@
 import express from "express";
 import { success } from "./helper.mjs";
-import { Assessment } from "../db/sequelize.mjs";
+import { Customer } from "../db/sequelize.mjs";
+import { ValidationError, Op } from "sequelize";
+
 
 //Instance de express, afin de créer des routes
-const assessmentRouter = express();
+const customersRouter = express();
 
 //Routes GET liste user
-assessmentRouter.get("/", (req, res) => {
+customersRouter.get("/", (req, res) => {
+  if(req.query.pseudo){
+    return Customer.findAll({
+      where:{pseudo:{[Op.like]: `%${req.query.pseudo}%`}}
+    }).then((users)=>{
+      const message = `Il y a ${users.length} users qui correspondent au terme de la recherce`;
+      res.json(success(message, users))
+    })
+  }
   return (
-    Assessment.findAll()
+    Customer.findAll()
       //Récupération liste user
-      .then((Assessments) => {
+      .then((customers) => {
         const message = "La liste des users a bien été récupérée";
-        res.json(success(message, Assessments));
+        res.json(success(message, customers));
       })
       //Gestion erreur 500
       .catch((error) => {
@@ -24,20 +34,20 @@ assessmentRouter.get("/", (req, res) => {
 });
 
 //Routes GET user avec id
-assessmentRouter.get("/:id", (req, res) => {
+customersRouter.get("/:id", (req, res) => {
   // Rechercher un user par sa clé primaire (id)
-  Assessment.findByPk(req.params.id)
+  Customer.findByPk(req.params.id)
 
-    .then((Assessment) => {
+    .then((customer) => {
       //Gestion erreur 404
-      if (Assessment === null) {
+      if (customer === null) {
         const message =
           "Le user demandé n'existe pas. Merci de réesayer avec un autre identifiant";
         return res.status(404).json({ message });
       }
       //Récupération user
-      const message = `Le user don't l'id vaut ${Assessment.id} a bien été récupéré`;
-      res.json(success(message, Assessment));
+      const message = `Le user don't l'id vaut ${customer.id} a bien été récupéré`;
+      res.json(success(message, customer));
     })
     //Gestion erreur 500
     .catch((error) => {
@@ -48,29 +58,31 @@ assessmentRouter.get("/:id", (req, res) => {
 });
 
 //Routes POST user
-assessmentRouter.post("/", (req, res) => {
+customersRouter.post("/", (req, res) => {
   //Créer un nouveaux user a partir des données
-  Assessment.create(req.body).then((createdUser) => {
+  //req.params.date_enter= new Data();
+  Customer.create(req.bod).then((createdUser) => {
+    //createdUser.date_enter = new Data()
     const message = `Le user ${createdUser.pseudo} a bien été créé !`;
     res.json(success(message, createdUser));
   });
 });
 
 //Routes PUT user
-assessmentRouter.put("/:id", (req, res) => {
-  const AssessmentId = req.params.id;
-  Assessment.update(req.body, { where: { id: AssessmentId } })
+customersRouter.put("/:id", (req, res) => {
+  const customerId = req.params.id;
+  Customer.update(req.body, { where: { id: customerId } })
     .then((_) => {
-      return Assessment.findByPk(AssessmentId).then((updatedAssessment) => {
+      return Customer.findByPk(customerId).then((updatedCustomer) => {
         //Gestion erreur 400
-        if (updatedAssessment === null) {
+        if (updatedCustomer === null) {
           const message =
             "Le user demandé n'existe pas. Merci de réessayer avec un atre identifiant.";
           return res.status(404).json({ message });
         }
         //Update de l'user
-        const message = `Le user ${updatedAssessment.pseudo} dont l'id vaut ${updatedAssessment.id} a été mis à jour avec success`;
-        res.json(success(message, updatedAssessment));
+        const message = `Le user ${updatedCustomer.pseudo} dont l'id vaut ${updatedCustomer.id} a été mis à jour avec success`;
+        res.json(success(message, updatedCustomer));
       });
     })
     //Gestion erreur 500
@@ -81,23 +93,22 @@ assessmentRouter.put("/:id", (req, res) => {
     });
 });
 
-//Routes DELETE user
-assessmentRouter.delete("/:id", (req, res) => {
+customersRouter.delete("/:id", (req, res) => {
     // Rechercher un user par sa clé primaire (id)
-    Assessment.findByPk(req.params.id)
-      .then((deletedAssessment) => {
+    Customer.findByPk(req.params.id)
+      .then((deletedCustomer) => {
         //Gestion erreur 400
-        if (deletedAssessment === null) {
+        if (deletedCustomer === null) {
           const message =
             "Le user demandé n'existe pas. Merci de réessayer avec un autre identifiant";
           return res.status(404).json({ message });
         }
-        return Book.destroy({
-          where: { id: deletedAssessment.id },
+        return Customer.destroy({
+          where: { id: deletedCustomer.id },
           //Delete de l'user
         }).then((_) => {
-          const message = `Le user ${deletedAssessment.pseudo} a bien été supprimé !`;
-          res.json(success(message, deletedAssessment));
+          const message = `Le user ${deletedCustomer.pseudo} a bien été supprimé !`;
+          res.json(success(message, deletedCustomer));
         });
       })
       //Gestion erreur 500
@@ -108,4 +119,4 @@ assessmentRouter.delete("/:id", (req, res) => {
       });
   });
   
-  export { assessmentRouter };
+  export { customersRouter };

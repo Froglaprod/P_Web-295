@@ -3,7 +3,7 @@ const options = {
     definition: {    
         openapi: "3.0.0",    
         info: {      
-            title: "API self-service-machine",      
+            title: "API LovBooks",      
             version: "1.0.0",      
             description:        
             "API REST permettant de gérer l'application Lovbooks",    

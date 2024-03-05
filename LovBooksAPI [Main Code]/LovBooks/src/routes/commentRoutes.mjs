@@ -92,7 +92,7 @@ commentRouter.delete("/:id", (req, res) => {
             "Le user demandé n'existe pas. Merci de réessayer avec un autre identifiant";
           return res.status(404).json({ message });
         }
-        return Book.destroy({
+        return Comment.destroy({
           where: { id: deletedComment.id },
           //Delete de l'user
         }).then((_) => {

@@ -1,12 +1,29 @@
 import express from "express";
 import { success } from "./helper.mjs";
 import { Author } from "../db/sequelize.mjs";
+import { ValidationError, Op } from "sequelize";
 
 //Instance de express, afin de créer des routes
 const authorsRouter = express();
 
 //Routes GET liste Author
 authorsRouter.get("/", (req, res) => {
+  if(req.query.first_name){
+    return Author.findAll({
+        where:{first_name : {[Op.like]: `%${req.query.first_name}%`}},
+    }).then((authors)=>{
+        const message = `Il y a ${authors.length} authors qui correspondent au terme de la recherche`;
+        res.json(success(message, authors))
+    })
+}
+if(req.query.name){
+  return Author.findAll({
+      where:{name : {[Op.like]: `%${req.query.name}%`}},
+  }).then((authors)=>{
+      const message = `Il y a ${authors.length} authors qui correspondent au terme de la recherche`;
+      res.json(success(message, authors))
+  })
+}
   return (
     Author.findAll()
       //Récupération liste Author
@@ -92,7 +109,7 @@ authorsRouter.delete("/:id", (req, res) => {
             "Le Author demandé n'existe pas. Merci de réessayer avec un autre identifiant";
           return res.status(404).json({ message });
         }
-        return Book.destroy({
+        return Author.destroy({
           where: { id: deletedAuthor.id },
           //Delete de l'Author
         }).then((_) => {

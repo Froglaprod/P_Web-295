@@ -6,7 +6,7 @@ import {auth} from "../auth/auth.mjs";
 
 const booksRouter = express();
 
-booksRouter.get("/", auth,(req, res) => {
+booksRouter.get("/", (req, res) => {
     if(req.query.title){
         return Book.findAll({
             where:{title : {[Op.like]: `%${req.query.title}%`}},
@@ -26,7 +26,7 @@ booksRouter.get("/", auth,(req, res) => {
   
   });
   
-booksRouter.get("/:id", auth,(req,res)=> {
+booksRouter.get("/:id", (req,res)=> {
     Book.findByPk(req.params.id)
     .then((book)=>{
         if (book === null){
@@ -42,14 +42,14 @@ booksRouter.get("/:id", auth,(req,res)=> {
     })
 })
 
-booksRouter.post("/", auth,(req, res)=>{
+booksRouter.post("/", (req, res)=>{
     Book.create(req.body).then((createdBook)=>{
         const message = `Le livre ${createdBook.name} a bien été créé !`;
         res.json(success(message, createdBook))
     });
 });
 
-booksRouter.put("/:id", auth,(req, res) => {
+booksRouter.put("/:id", (req, res) => {
     const bookId = req.params.id;
     Book.update(req.body, {where:{id:bookId}})
     .then((_)=>{
@@ -68,7 +68,7 @@ booksRouter.put("/:id", auth,(req, res) => {
     })
 })  
 
-booksRouter.delete("/:id", auth,(req, res)=>{
+booksRouter.delete("/:id", (req, res)=>{
     Book.findByPk(req.params.id)
     .then((deletedBook)=> {
         if (deletedBook===null){

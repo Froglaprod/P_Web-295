@@ -1,14 +1,25 @@
 import express from "express";
 import { success } from "./helper.mjs";
 import { Category } from "../db/sequelize.mjs";
+import { Book } from "../db/sequelize.mjs";
 //Permet d'utilise des element de comparaison
-import { Op } from "sequelize";
+import { ValidationError, Op } from "sequelize";
 
 //Instance de express, afin de créer des routes
 const categorysRouter = express();
 
 //Routes GET liste category
+
 categorysRouter.get("/", (req, res) => {
+  if (req.query.name) {
+    return Category.findAll({
+      where: { name: { [Op.like]: `%${req.query.name}%` } },
+    }).then((categorys) => {
+      const message = `Il y a ${categorys.length} categories qui correspondent au terme de la recherche`;
+      
+      res.json(success(message, categorys));
+    });
+  }
   return (
     Category.findAll()
       //Récupération liste category
@@ -24,6 +35,8 @@ categorysRouter.get("/", (req, res) => {
       })
   );
 });
+
+
 
 //Routes GET category avec id
 categorysRouter.get("/:id", (req, res) => {
@@ -50,38 +63,30 @@ categorysRouter.get("/:id", (req, res) => {
 });
 
 // Get liste livre par rapport à une catégorie
-categorysRouter.get("/:name/books", (req, res) => {
-  const categoryName = req.params.name;
-
-  Category.findOne({
-    // Compare la catégorie avec les infos dans la t_book
-    where: {
-      name: categoryName,
-    },
-    include: {
-      model: Book,
-    },
-  })
-    .then((category) => {
-      // Gestion erreur 404
-      if (!category) {
-        const message =
-          "La catégorie demandée n'existe pas. Merci de réessayer avec un autre nom de catégorie";
-        return res.status(404).json({ message });
-      }
-      // Résultat
-      const books = category.Books;
-      const message = `Liste des livres de la catégorie ${category.name}`;
-      res.json(success(message, books));
+categorysRouter.get("/category_books", (req, res) => {
+  if (req.query.category) {
+    const categoryName = req.query.category;
+ 
+    Category.findOne({
+      where: { name: { [Op.like]: `%${categoryName}%` } },
+      include: 'books', // 'books' est l'alias défini dans les associations
     })
-    // Gestion erreur 500
-    .catch((error) => {
-      const message =
-        "Une erreur est survenue lors de la récupération des livres de la catégorie. Merci de réessayer dans quelques instants.";
-      res.status(500).json({ message, data: error });
-    });
+      .then((category) => {
+        if (!category) {
+          const message = `Aucune catégorie trouvée avec le nom ${categoryName}`;
+          return res.status(404).json({ message, data: null, category: null });
+        }
+ 
+        const books = category.books; // Utilisez l'alias défini dans les associations
+        const message = `Voici tous les livres ayant comme catégorie ${category.name}`;
+        res.json(success(message, books, category));
+      })
+      .catch((error) => {
+        const message = "Une erreur est survenue lors de la récupération des livres de la catégorie. Merci de réessayer dans quelques instants.";
+        res.status(500).json({ message, data: error, category: null });
+      });
+  }
 });
-
 //Routes POST category
 categorysRouter.post("/", (req, res) => {
   //Créer un nouveaux category a partir des données
