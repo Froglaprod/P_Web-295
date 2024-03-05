@@ -1,7 +1,7 @@
 {
   "name": "lovbooks",
   "version": "1.0.0",
-  "description": "LovBooks API",
+  "description": "LovBooks API - catalogue des livres",
   "main": "src/app.mjs",
   "scripts": {
     "start": "nodemon src/app.mjs"

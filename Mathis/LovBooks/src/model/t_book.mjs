@@ -94,10 +94,32 @@ const BookModelTable = (sequelize, DataTypes) => {
           },
         },
       },
+      // Liasons clef étrangère
       category_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
+      autor_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      publisher_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      comment_id: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+      },
+      assessment_id: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+      },
+      customer_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+
       summary: {
         type: DataTypes.TEXT,
         // Validation requisent

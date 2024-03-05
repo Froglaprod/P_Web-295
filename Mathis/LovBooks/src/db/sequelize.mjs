@@ -2,11 +2,11 @@
 import { DataTypes, Sequelize } from "sequelize";
 import { BookModelTable } from "../model/t_book.mjs";
 import { CustomerModelTable } from "../model/t_customer.mjs";
-import { AssessmentModelTable } from "../model/t_assessment.mjs"; 
-import { AuthorModelTable } from "../model/t_author.mjs"; 
-import { PublisherModelTable } from "../model/t_publisher.mjs"; 
-import { CategoryModelTable } from "../model/t_category.mjs"; 
-import { CommentModelTable } from "../model/t_comment.mjs"; 
+import { AssessmentModelTable } from "../model/t_assessment.mjs";
+import { AuthorModelTable } from "../model/t_author.mjs";
+import { PublisherModelTable } from "../model/t_publisher.mjs";
+import { CategoryModelTable } from "../model/t_category.mjs";
+import { CommentModelTable } from "../model/t_comment.mjs";
 
 // Import de données
 import { books } from "./mock-book.mjs";
@@ -43,17 +43,57 @@ Category.hasMany(Book, {
   foreignKey: "category_id",
 });
 
+// Livres / Auteur
+Book.belongsTo(Author, {
+  foreignKey: "author_id",
+});
+Author.hasMany(Book, {
+  foreignKey: "author_id",
+});
+
+// Livres / Éditeur
+Book.belongsTo(Publisher, {
+  foreignKey: "publisher_id",
+});
+Publisher.hasMany(Book, {
+  foreignKey: "publisher_id",
+});
+
+// Livres / Commentaire
+Book.hasMany(Comment, {
+  foreignKey: "comment_id", 
+});
+Comment.belongsTo(Book, {
+  foreignKey: "comment_id", 
+});
+
+// Livres / Note
+Book.belongsTo(Assessment, {
+  foreignKey: "assessment_id", 
+});
+Assessment.hasOne(Book, {
+  foreignKey: "assessment_id", 
+});
+
+// Livres / Client
+Book.belongsTo(Customer, {
+  foreignKey: "customer_id", 
+});
+Customer.hasMany(Book, {
+  foreignKey: "customer_id", 
+});
+
 // Synchronisation avec la db
 let initDB = () => {
   // Force la synchronisation (supprime toutes les données également)
   return sequelize.sync({ force: true }).then((_) => {
     importCategory();
-    importBooks();
     importCustomers();
     importAssessment();
     importComment();
     importPublisher();
     importAuthors();
+    importBooks();
     console.log("La base de données a bien été synchronisée");
   });
 };
