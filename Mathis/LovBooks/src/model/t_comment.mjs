@@ -22,6 +22,11 @@ const CommentModelTable = (sequelize, DataTypes) => {
           },
         },
       },
+      // Liasons clef étrangère
+      customer_id_id: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+      },
       created_at: {
         type: DataTypes.DATE,
         allowNull: true,

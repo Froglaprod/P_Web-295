@@ -41,13 +41,13 @@ app.use("/api/categorys", categorysRouter);
 app.use("/api/authors", authorsRouter);
 
 //Utilise la route pour les éditeurs
-app.use("/api/authors", publisherRouter);
+app.use("/api/publishers", publisherRouter);
 
 //Utilise la route pour les commentaires
-app.use("/api/authors", commentRouter);
+app.use("/api/comments", commentRouter);
 
 //Utilise la route pour les notes
-app.use("/api/authors", assessmentRouter);
+app.use("/api/assessments", assessmentRouter);
 
 //Erreur 404
 app.use(({ res }) => {

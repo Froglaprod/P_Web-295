@@ -83,6 +83,22 @@ Customer.hasMany(Book, {
   foreignKey: "customer_id", 
 });
 
+// Client / commentaire
+Customer.hasMany(Comment, {
+  foreignKey: "customer_id", 
+});
+Comment.belongsTo(Customer, {
+  foreignKey: "customer_id", 
+});
+
+// Client / évaluation
+Customer.hasMany(Assessment, {
+  foreignKey: "customer_id", 
+});
+Assessment.belongsTo(Customer, {
+  foreignKey: "customer_id", 
+});
+
 // Synchronisation avec la db
 let initDB = () => {
   // Force la synchronisation (supprime toutes les données également)
