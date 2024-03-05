@@ -3,7 +3,6 @@ import { success } from "./helper.mjs";
 import { Book } from "../db/sequelize.mjs";
 import { ValidationError, Op } from "sequelize";
 import {auth} from "../auth/auth.mjs";
-import { books } from "../db/mock-book.mjs";
 
 const booksRouter = express();
 
