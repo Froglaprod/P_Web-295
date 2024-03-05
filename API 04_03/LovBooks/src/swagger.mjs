@@ -65,6 +65,30 @@ const options = {
                     },        
                 },        
                 // Ajoutez d'autres schémas ici si nécessaire      
+                Customer:{
+
+                    type:"object",
+                    required : ["pseudo", "date_enter", "password"],
+                    properties:{
+                        id: {              
+                            type: "integer",              
+                            description: "L'identifiant unique de l'utilisateur.",            
+                        },            
+                        pseudo: {              
+                            type: "string",              
+                            description: "Le nom de l'utilisateur.",            
+                        },  
+                        date_entre: {              
+                            type: "date",              
+                            description: "Le date de creation de l'utilisateur.",            
+                        },           
+                        password: {              
+                            type: "string",              
+                            description: "Le mot de passe de l'utilisateur.",            
+                        },   
+                    }
+
+                }
             },    
         },    
         security: [      
@@ -76,5 +100,6 @@ const options = {
     apis: ["./src/routes/*.mjs"], 
     // Chemins vers vos fichiers de route 
 }; 
+
 const swaggerSpec = swaggerJSDoc(options); 
 export { swaggerSpec };

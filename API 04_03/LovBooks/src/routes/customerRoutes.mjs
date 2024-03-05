@@ -7,6 +7,14 @@ const customersRouter = express();
 
 //Routes GET liste user
 customersRouter.get("/", (req, res) => {
+  if(req.query.name){
+    return Customer.findAll({
+      where:{name:{[Op.like]: `%${req.query.name}%`}}
+    }).then((users)=>{
+      const message = `Il y a ${users.length} users qui correspondent au terme de la recherce`;
+      res.json(success(message, users))
+    })
+  }
   return (
     Customer.findAll()
       //Récupération liste user
