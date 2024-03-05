@@ -1,7 +1,12 @@
 import express from "express";
 import { sequelize, initDB } from "./db/sequelize.mjs";
 import { booksRouter } from "./routes/bookRoutes.mjs";
-import { customersRouter } from "./routes/customerRoutes.mjs";
+import { customersRouter,  } from "./routes/customerRoutes.mjs";
+import { categorysRouter } from "./routes/categoryRoutes.mjs";
+import { authorsRouter } from "./routes/authorRoutes.mjs";
+import { publisherRouter } from "./routes/publisherRoutes.mjs";
+import { assessmentRouter } from "./routes/assessmentRoutes.mjs";
+import { commentRouter } from "./routes/commentRoutes.mjs";
 
 const app = express();
 const port = 3420;
@@ -10,9 +15,9 @@ app.use(express.json());
 
 //Authentification et synchronisation de la db
 sequelize
- .authenticate()
- .then((_) => console.log("La connexion à la base de données a bien été établie"))
- .catch((error)=>console.error("Impossible de se connecter à la DB"))
+    .authenticate()
+    .then((_) => console.log("La connexion à la base de données a bien été établie"))
+    .catch((error) => console.error("Impossible de se connecter à la DB"))
 initDB();
 
 app.get("/", (req, res) => {
@@ -29,9 +34,24 @@ app.use("/api/books", booksRouter);
 //Utilise la route pour les users
 app.use("/api/users", customersRouter);
 
+//Utilise la route pour les categories
+app.use("/api/categorys", categorysRouter);
+
+//Utilise la route pour les auteurs
+app.use("/api/authors", authorsRouter);
+
+//Utilise la route pour les éditeurs
+app.use("/api/authors", publisherRouter);
+
+//Utilise la route pour les commentaires
+app.use("/api/authors", commentRouter);
+
+//Utilise la route pour les notes
+app.use("/api/authors", assessmentRouter);
+
 //Erreur 404
-app.use(({res})=>{
-    const message= "Impossible de trouver la ressource demandée! Vous pouvez essayer une autre URL."
+app.use(({ res }) => {
+    const message = "Impossible de trouver la ressource demandée! Vous pouvez essayer une autre URL."
     res.status(404).json(message)
 })
 

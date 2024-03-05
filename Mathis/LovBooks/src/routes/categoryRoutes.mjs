@@ -1,0 +1,111 @@
+import express from "express";
+import { success } from "./helper.mjs";
+import { Category } from "../db/sequelize.mjs";
+
+//Instance de express, afin de créer des routes
+const categorysRouter = express();
+
+//Routes GET liste category
+categorysRouter.get("/", (req, res) => {
+  return (
+    Category.findAll()
+      //Récupération liste category
+      .then((categorys) => {
+        const message = "La liste des category a bien été récupérée";
+        res.json(success(message, categorys));
+      })
+      //Gestion erreur 500
+      .catch((error) => {
+        res
+          .status(500)
+          .json("une erreur est survenue lors de la récupération des category");
+      })
+  );
+});
+
+//Routes GET category avec id
+categorysRouter.get("/:id", (req, res) => {
+  // Rechercher un category par sa clé primaire (id)
+  Category.findByPk(req.params.id)
+
+    .then((categorys) => {
+      //Gestion erreur 404
+      if (categorys === null) {
+        const message =
+          "Le category demandé n'existe pas. Merci de réesayer avec un autre identifiant";
+        return res.status(404).json({ message });
+      }
+      //Récupération category
+      const message = `Le category don't l'id vaut ${categorys.id} a bien été récupéré`;
+      res.json(success(message, categorys));
+    })
+    //Gestion erreur 500
+    .catch((error) => {
+      const message =
+        "Le category n'a pas pu être récupéré. Merci de réessayer dans quelques instants.";
+      res.status(500).json({ message, data: error });
+    });
+});
+
+//Routes POST category
+categorysRouter.post("/", (req, res) => {
+  //Créer un nouveaux category a partir des données
+  Category.create(req.body).then((createdcategory) => {
+    const message = `Le category ${createdcategory.name} a bien été créé !`;
+    res.json(success(message, createdcategory));
+  });
+});
+
+//Routes PUT category
+categorysRouter.put("/:id", (req, res) => {
+  const categoryId = req.params.id;
+  Category.update(req.body, { where: { id: categoryId } })
+    .then((_) => {
+      return Category.findByPk(categoryId).then((updatedCategory) => {
+        //Gestion erreur 400
+        if (updatedCategory === null) {
+          const message =
+            "Le category demandé n'existe pas. Merci de réessayer avec un atre identifiant.";
+          return res.status(404).json({ message });
+        }
+        //Update de l'category
+        const message = `Le category ${updatedCategory.name} dont l'id vaut ${updatedCategory.id} a été mis à jour avec success`;
+        res.json(success(message, updatedCategory));
+      });
+    })
+    //Gestion erreur 500
+    .catch((error) => {
+      const message =
+        "Le category n'a pas pu être mis à jour. Merci de réessayer dans quelques instants.";
+      res.status(500).json({ message, data: error });
+    });
+});
+
+//Routes DELETE category
+categorysRouter.delete("/:id", (req, res) => {
+    // Rechercher un category par sa clé primaire (id)
+    Category.findByPk(req.params.id)
+      .then((deletedCategory) => {
+        //Gestion erreur 400
+        if (deletedCategory === null) {
+          const message =
+            "Le category demandé n'existe pas. Merci de réessayer avec un autre identifiant";
+          return res.status(404).json({ message });
+        }
+        return Book.destroy({
+          where: { id: deletedCategory.id },
+          //Delete de l'category
+        }).then((_) => {
+          const message = `Le category ${deletedCategory.name} a bien été supprimé !`;
+          res.json(success(message, deletedCategory));
+        });
+      })
+      //Gestion erreur 500
+      .catch((error) => {
+        const message =
+          "Le category n'a pas pu être supprimé. Merci de réessayer dans quelques instants";
+        res.status(500).json({ message, data: error });
+      });
+  });
+  
+  export { categorysRouter };
