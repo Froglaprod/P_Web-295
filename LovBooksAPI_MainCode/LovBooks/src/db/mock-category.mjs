@@ -47,6 +47,10 @@ let categorys = [
     id: 12,
     name: "Poetry",
   },
+  {
+    id: 13,
+    name: "Adult",
+  },  
 ];
 
 export { categorys };

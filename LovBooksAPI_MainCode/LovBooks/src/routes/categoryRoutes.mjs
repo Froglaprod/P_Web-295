@@ -123,7 +123,13 @@ categorysRouter.post("/", (req, res) => {
   Category.create(req.body).then((createdcategory) => {
     const message = `Le category ${createdcategory.name} a bien été créé !`;
     res.json(success(message, createdcategory));
-  });
+  }).catch((error)=> {
+    if(error instanceof ValidationError){
+        return res.status(400).json({message: error.message, data:error})
+    }
+    const message = "Le category n'a pas pu être ajouté. Merci de réessayer dans quelques instants"
+    res.status(500).json({message, data: error})
+});
 });
 
 //Routes PUT category

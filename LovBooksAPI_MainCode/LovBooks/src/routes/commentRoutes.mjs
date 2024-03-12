@@ -1,6 +1,7 @@
 import express from "express";
 import { success } from "./helper.mjs";
 import { Comment } from "../db/sequelize.mjs";
+import { ValidationError, Op } from "sequelize";
 
 //Instance de express, afin de créer des routes
 const commentRouter = express();
@@ -11,7 +12,7 @@ commentRouter.get("/", (req, res) => {
     Comment.findAll()
       //Récupération liste user
       .then((Comments) => {
-        const message = "La liste des users a bien été récupérée";
+        const message = "La liste des commentaires a bien été récupérée";
         res.json(success(message, Comments));
       })
       //Gestion erreur 500
@@ -23,37 +24,43 @@ commentRouter.get("/", (req, res) => {
   );
 });
 
-//Routes GET user avec id
+//Routes GET commentaire avec id
 commentRouter.get("/:id", (req, res) => {
-  // Rechercher un user par sa clé primaire (id)
+  // Rechercher un commentaire par sa clé primaire (id)
   Comment.findByPk(req.params.id)
 
     .then((Comment) => {
       //Gestion erreur 404
       if (Comment === null) {
         const message =
-          "Le user demandé n'existe pas. Merci de réesayer avec un autre identifiant";
+          "Le commentaires demandé n'existe pas. Merci de réesayer avec un autre identifiant";
         return res.status(404).json({ message });
       }
-      //Récupération user
-      const message = `Le user don't l'id vaut ${Comment.id} a bien été récupéré`;
+      //Récupération commentaire
+      const message = `Le commentaire don't l'id vaut ${Comment.id} a bien été récupéré`;
       res.json(success(message, Comment));
     })
     //Gestion erreur 500
     .catch((error) => {
       const message =
-        "Le user n'a pas pu être récupéré. Merci de réessayer dans quelques instants.";
+        "Le commentaire n'a pas pu être récupéré. Merci de réessayer dans quelques instants.";
       res.status(500).json({ message, data: error });
     });
 });
 
 //Routes POST comments
 commentRouter.post("/", (req, res) => {
-  //Créer un nouveaux user a partir des données
+  //Créer un nouveaux commentaire a partir des données
   Comment.create(req.body).then((createdComment) => {
-    const message = `Le comment ${createdComment.id} a bien été créé !`;
+    const message = `Le commentaire ${createdComment.id} a bien été créé !`;
     res.json(success(message, createdComment));
-  });
+  }).catch((error)=> {
+    if(error instanceof ValidationError){
+        return res.status(400).json({message: error.message, data:error})
+    }
+    const message = "Le commentaire n'a pas pu être ajouté. Merci de réessayer dans quelques instants"
+    res.status(500).json({message, data: error})
+});
 });
 
 //Routes PUT comments
@@ -65,45 +72,45 @@ commentRouter.put("/:id", (req, res) => {
         //Gestion erreur 400
         if (updatedComment === null) {
           const message =
-            "Le user demandé n'existe pas. Merci de réessayer avec un atre identifiant.";
+            "Le commentaire demandé n'existe pas. Merci de réessayer avec un atre identifiant.";
           return res.status(404).json({ message });
         }
-        //Update de l'user
-        const message = `Le user ${updatedComment.pseudo} dont l'id vaut ${updatedComment.id} a été mis à jour avec success`;
+        //Update de l'commentaire
+        const message = `Le commentaire  dont l'id vaut ${updatedComment.id} a été mis à jour avec success`;
         res.json(success(message, updatedComment));
       });
     })
     //Gestion erreur 500
     .catch((error) => {
       const message =
-        "Le user n'a pas pu être mis à jour. Merci de réessayer dans quelques instants.";
+        "Le commentaire n'a pas pu être mis à jour. Merci de réessayer dans quelques instants.";
       res.status(500).json({ message, data: error });
     });
 });
 
-//Routes DELETE user
+//Routes DELETE commentaire
 commentRouter.delete("/:id", (req, res) => {
-    // Rechercher un user par sa clé primaire (id)
+    // Rechercher un commentaire par sa clé primaire (id)
     Comment.findByPk(req.params.id)
       .then((deletedComment) => {
         //Gestion erreur 400
         if (deletedComment === null) {
           const message =
-            "Le user demandé n'existe pas. Merci de réessayer avec un autre identifiant";
+            "Le commentaire demandé n'existe pas. Merci de réessayer avec un autre identifiant";
           return res.status(404).json({ message });
         }
         return Comment.destroy({
           where: { id: deletedComment.id },
-          //Delete de l'user
+          //Delete de l'commentaire
         }).then((_) => {
-          const message = `Le user ${deletedComment.content} a bien été supprimé !`;
+          const message = `Le commentaire ${deletedComment.id} a bien été supprimé !`;
           res.json(success(message, deletedComment));
         });
       })
       //Gestion erreur 500
       .catch((error) => {
         const message =
-          "Le user n'a pas pu être supprimé. Merci de réessayer dans quelques instants";
+          "Le commentaire n'a pas pu être supprimé. Merci de réessayer dans quelques instants";
         res.status(500).json({ message, data: error });
       });
   });

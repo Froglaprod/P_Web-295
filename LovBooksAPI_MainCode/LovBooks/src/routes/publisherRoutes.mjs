@@ -63,7 +63,13 @@ publisherRouter.post("/", (req, res) => {
   Publisher.create(req.body).then((createdPublisher) => {
     const message = `Le Publisher ${createdPublisher.name} a bien été créé !`;
     res.json(success(message, createdPublisher));
-  });
+  }).catch((error)=> {
+    if(error instanceof ValidationError){
+        return res.status(400).json({message: error.message, data:error})
+    }
+    const message = "Le publisher n'a pas pu être ajouté. Merci de réessayer dans quelques instants"
+    res.status(500).json({message, data: error})
+});
 });
 
 //Publishers PUT Publisher

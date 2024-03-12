@@ -86,10 +86,19 @@ booksRouter.get("/:id/notes", (req, res) => {
 })
 //Ajouter une livre
 booksRouter.post("/", (req, res) => {
-    Book.create(req.body).then((createdBook) => {
-        const message = `Le livre ${createdBook.name} a bien été créé !`;
+    Book.create(req.body)
+    .then((createdBook) => {
+        const message = `Le livre ${createdBook.title} a bien été créé !`;
         res.json(success(message, createdBook))
+    })
+    .catch((error)=> {
+        if(error instanceof ValidationError){
+            return res.status(400).json({message: error.message, data:error})
+        }
+        const message = "Le livre n'a pas pu être ajouté. Merci de réessayer dans quelques instants"
+        res.status(500).json({message, data: error})
     });
+    
 });
 //Ajouter une commentaire sur une livre
 booksRouter.post("/:id/comments", (req, res) => {
@@ -97,9 +106,15 @@ booksRouter.post("/:id/comments", (req, res) => {
     const reqBody = req.body
     reqBody.book_id = bookId
     Comment.create( reqBody).then((createdComment) => {
-        const message = `Le comment ${createdComment.id} a bien été créé !`;
+        const message = `Le commentaire ${createdComment.id} a bien été créé !`;
         res.json(success(message, createdComment));
-      });
+      }).catch((error)=> {
+        if(error instanceof ValidationError){
+            return res.status(400).json({message: error.message, data:error})
+        }
+        const message = "Le commentaire n'a pas pu être ajouté. Merci de réessayer dans quelques instants"
+        res.status(500).json({message, data: error})
+    });
 })
 
 //Ajouter une note sur une livre
@@ -107,10 +122,17 @@ booksRouter.post("/:id/note", (req, res) => {
     const bookId = req.params.id;
     const reqBody = req.body
     reqBody.book_id = bookId
-    Assessment.create(req.body).then((createdUser) => {
-        const message = `Le user ${createdUser.pseudo} a bien été créé !`;
-        res.json(success(message, createdUser));
-      });
+    Assessment.create(req.body).then((assessmentCreated) => {
+        const message = `La note ${assessmentCreated.id} a bien été créé !`;
+        res.json(success(message, assessmentCreated));
+      }).catch((error)=> {
+        if(error instanceof ValidationError){
+            return res.status(400).json({message: error.message, data:error})
+        }
+        const message = "La note n'a pas pu être ajouté. Merci de réessayer dans quelques instants"
+        res.status(500).json({message, data: error})
+    });
+
 })
 
 
@@ -123,7 +145,7 @@ booksRouter.put("/:id", (req, res) => {
                     const message = "Le livre demandé n'existe pas. Merci de réessayer avec un atre identifiant.";
                     return res.status(404).json({ message })
                 }
-                const message = `Le livre ${updatedBook.name} dont l'id vaut ${updatedBook.id} a été mis à jour avec success`
+                const message = `Le livre ${updatedBook.title} dont l'id vaut ${updatedBook.id} a été mis à jour avec success`
                 res.json(success(message, updatedBook));
             })
         })
@@ -143,7 +165,7 @@ booksRouter.delete("/:id", (req, res) => {
             return Book.destroy({
                 where: { id: deletedBook.id },
             }).then((_) => {
-                const message = `Le livre ${deletedBook.name} a bien été supprimé !`;
+                const message = `Le livre ${deletedBook.title} a bien été supprimé !`;
                 res.json(success(message, deletedBook))
             })
         })

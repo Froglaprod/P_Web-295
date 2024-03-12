@@ -90,12 +90,18 @@ customersRouter.get("/:id/books", (req, res) => {
 //Routes POST user
 customersRouter.post("/", (req, res) => {
   //Créer un nouveaux user a partir des données
-  //req.params.date_enter= new Data();
-  Customer.create(req.bod).then((createdUser) => {
+  Customer.create(req.body).then((createdUser) => {
     //createdUser.date_enter = new Data()
-    const message = `Le user ${createdUser.pseudo} a bien été créé !`;
+    const message = `L'utilisateur ${createdUser.pseudo} a bien été créé !`;
     res.json(success(message, createdUser));
-  });
+  })
+  .catch((error)=> { 
+    if(error instanceof ValidationError){
+        return res.status(400).json({message: error.message, data:error})
+    }
+    const message = "L'utilisateur n'a pas pu être ajouté. Merci de réessayer dans quelques instants"
+    res.status(500).json({message, data: error})
+});
 });
 
 //Routes PUT user

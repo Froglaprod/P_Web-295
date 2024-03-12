@@ -102,7 +102,13 @@ authorsRouter.post("/", (req, res) => {
   Author.create(req.body).then((createdAuthor) => {
     const message = `Le Author ${createdAuthor.name} a bien été créé !`;
     res.json(success(message, createdAuthor));
-  });
+  }).catch((error)=> {
+    if(error instanceof ValidationError){
+        return res.status(400).json({message: error.message, data:error})
+    }
+    const message = "L'author n'a pas pu être ajouté. Merci de réessayer dans quelques instants"
+    res.status(500).json({message, data: error})
+});;
 });
 
 //Routes PUT Author
