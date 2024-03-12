@@ -3,13 +3,13 @@ import { success } from "./helper.mjs";
 import { Customer } from "../db/sequelize.mjs";
 import { ValidationError, Op } from "sequelize";
 import { Book } from "../db/sequelize.mjs";
-
+import { auth } from "../auth/auth.mjs";
 
 //Instance de express, afin de créer des routes
 const customersRouter = express();
 
 //Routes GET liste user
-customersRouter.get("/", (req, res) => {
+customersRouter.get("/", auth, (req, res) => {
   if(req.query.pseudo){
     return Customer.findAll({
       where:{pseudo:{[Op.like]: `%${req.query.pseudo}%`}}
@@ -35,7 +35,7 @@ customersRouter.get("/", (req, res) => {
 });
 
 //Routes GET user avec id
-customersRouter.get("/:id", (req, res) => {
+customersRouter.get("/:id", auth, (req, res) => {
   // Rechercher un user par sa clé primaire (id)
   Customer.findByPk(req.params.id)
 
@@ -59,7 +59,7 @@ customersRouter.get("/:id", (req, res) => {
 });
 
 //Routes GET user avec id et tous ses livres
-customersRouter.get("/:id/books", (req, res) => {
+customersRouter.get("/:id/books",auth, (req, res) => {
   // Rechercher un user par sa clé primaire (id)
   Customer.findByPk(req.params.id)
 
@@ -88,7 +88,7 @@ customersRouter.get("/:id/books", (req, res) => {
 
 
 //Routes POST user
-customersRouter.post("/", (req, res) => {
+customersRouter.post("/", auth,(req, res) => {
   //Créer un nouveaux user a partir des données
   Customer.create(req.body).then((createdUser) => {
     //createdUser.date_enter = new Data()
@@ -105,7 +105,7 @@ customersRouter.post("/", (req, res) => {
 });
 
 //Routes PUT user
-customersRouter.put("/:id", (req, res) => {
+customersRouter.put("/:id", auth,(req, res) => {
   const customerId = req.params.id;
   Customer.update(req.body, { where: { id: customerId } })
     .then((_) => {
@@ -123,13 +123,16 @@ customersRouter.put("/:id", (req, res) => {
     })
     //Gestion erreur 500
     .catch((error) => {
+      if(error instanceof ValidationError){
+        return res.status(400).json({message: error.message, data:error})
+    }
       const message =
         "Le user n'a pas pu être mis à jour. Merci de réessayer dans quelques instants.";
       res.status(500).json({ message, data: error });
     });
 });
 
-customersRouter.delete("/:id", (req, res) => {
+customersRouter.delete("/:id",auth, (req, res) => {
     // Rechercher un user par sa clé primaire (id)
     Customer.findByPk(req.params.id)
       .then((deletedCustomer) => {

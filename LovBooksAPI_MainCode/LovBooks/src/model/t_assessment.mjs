@@ -33,7 +33,7 @@ const AssessmentModelTable = (sequelize, DataTypes) => {
         },
       },
       // Liasons clef étrangère
-      customer_id_id: {
+      customer_id: {
         type: DataTypes.INTEGER,
         allowNull: true,
       },

@@ -23,7 +23,8 @@ booksRouter.get("/", (req, res) => {
             res.json(success(message, books));
         })
         .catch((error) => {
-            res.status(500).json("une erreur est survenue lors de la récupération des livres");
+            const message = "Une erreur est survenue lors de la récupération des livres"
+            res.status(500).json({message,  data: error});
         });
 
 });
@@ -55,7 +56,7 @@ booksRouter.get("/:id/comments", (req, res) => {
             return Comment.findAll({
                 where: { book_id: book.id },
             }).then((comments) => {
-                const message = `Il y a ${comments.length} comments qui correspondent au terme de la recherche`;
+                const message = `Il y a ${comments.length} commentaire qui correspondent au terme de la recherche`;
                 res.json(success(message, comments))
             })
         })
@@ -135,7 +136,7 @@ booksRouter.post("/:id/note", (req, res) => {
 
 })
 
-
+//Modifier une luvre
 booksRouter.put("/:id", (req, res) => {
     const bookId = req.params.id;
     Book.update(req.body, { where: { id: bookId } })
@@ -150,6 +151,9 @@ booksRouter.put("/:id", (req, res) => {
             })
         })
         .catch((error) => {
+            if(error instanceof ValidationError){
+                return res.status(400).json({message: error.message, data:error})
+            }
             const message = "Le livre n'a pas pu être mis à jour. Merci de réessayer dans quelques instants.";
             res.status(500).json({ message, data: error });
         })
