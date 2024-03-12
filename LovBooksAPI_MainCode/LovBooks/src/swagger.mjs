@@ -72,13 +72,13 @@ const options = {
                     properties:{
                         id: {              
                             type: "integer",              
-                            description: "L'identifiant unique de l'utilisateur.",            
+                            description: "L'identifiant unique de l'utilisateeur.",            
                         },            
                         pseudo: {              
                             type: "string",              
                             description: "Le nom de l'utilisateur.",            
                         },  
-                        date_entre: {              
+                        date_enter: {              
                             type: "date",              
                             description: "Le date de creation de l'utilisateur.",            
                         },           
@@ -87,8 +87,111 @@ const options = {
                             description: "Le mot de passe de l'utilisateur.",            
                         },   
                     }
+                },
+                Author:{
+                    type:"object",
+                    required : ["first_name", "name"],
+                    properties:{
+                        id: {              
+                            type: "integer",              
+                            description: "L'identifiant unique de l'author.",            
+                        },            
+                        first_name: {              
+                            type: "string",              
+                            description: "Le prénom de l'author.",            
+                        },  
+                        name: {              
+                            type: "string",              
+                            description: "Le nom de l'author.",            
+                        },              
+                    }
+                },
+                Category:{
 
-                }
+                    type:"object",
+                    required : ["pseudo", "name"],
+                    properties:{
+                        id: {              
+                            type: "integer",              
+                            description: "L'identifiant unique du categorie.",            
+                        },            
+                        name: {              
+                            type: "string",              
+                            description: "Le nom du categorie.",            
+                        },                             
+                    }
+                },
+                Publisher:{
+                    type:"object",
+                    required : ["name", "edition_date"],
+                    properties:{
+                        id: {              
+                            type: "integer",              
+                            description: "L'identifiant unique du publisher.",            
+                        },            
+                        name: {              
+                            type: "string",              
+                            description: "Le nom du publisher.",            
+                        }, 
+                        edition_date: {              
+                            type: "date",              
+                            description: "La date d'édition.",            
+                        },                             
+                    }
+                },
+                Comment:{
+                    type:"object",
+                    required : ["content", "customer_id", "book_id", "created_at"],
+                    properties:{
+                        id: {              
+                            type: "integer",              
+                            description: "L'identifiant unique du commentaire.",            
+                        },            
+                        content: {              
+                            type: "string",              
+                            description: "Le content du commentaire.",            
+                        }, 
+                        customer_id: {              
+                            type: "integer",              
+                            description: "L'identifiant de l'utilisateur du commentaire.",            
+                        }, 
+                        book_id: {              
+                            type: "integer",              
+                            description: "L'identifiant de le livre du commentaire.",            
+                        }, 
+                        created_at: {              
+                            type: "date",              
+                            description: "La date de creation.",            
+                        },                             
+                    }
+                },
+                Assessment:{
+                    type:"object",
+                    required : ["assessment", "customer_id", "book_id", "created_at"],
+                    properties:{
+                        id: {              
+                            type: "integer",              
+                            description: "L'identifiant unique du note.",            
+                        },            
+                        assessment: {              
+                            type: "integer",              
+                            description: "Le note.",            
+                        }, 
+                        customer_id: {              
+                            type: "integer",              
+                            description: "L'identifiant de l'utilisateur du note.",            
+                        }, 
+                        book_id: {              
+                            type: "integer",              
+                            description: "L'identifiant de le livre du note.",            
+                        }, 
+                        created_at: {              
+                            type: "date",              
+                            description: "La date de creation.",            
+                        },                             
+                    }
+                },
+                
             },    
         },    
         security: [      
