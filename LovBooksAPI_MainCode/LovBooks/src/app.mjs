@@ -12,13 +12,17 @@ import { publisherRouter } from "./routes/publisherRoutes.mjs";
 import { assessmentRouter } from "./routes/assessmentRoutes.mjs";
 import { commentRouter } from "./routes/commentRoutes.mjs";
 
+//Import de cors afin d'autoriser les requetes du front end
+import cors from 'cors'
 
 const app = express();
 const port = 3000;
 app.use(express.json());
 
-//Authentification et synchronisation de la db
+// Utilisation de cors
+app.use(cors());
 
+//Authentification et synchronisation de la db
 sequelize
  .authenticate()
  .then((_) => console.log("La connexion à la base de données a bien été établie"))

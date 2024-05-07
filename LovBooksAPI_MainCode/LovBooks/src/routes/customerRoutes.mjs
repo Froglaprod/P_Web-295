@@ -9,7 +9,7 @@ import { auth } from "../auth/auth.mjs";
 const customersRouter = express();
 
 //Routes GET liste user
-customersRouter.get("/", auth, (req, res) => {
+customersRouter.get("/",  (req, res) => {
   if(req.query.pseudo){
     return Customer.findAll({
       where:{pseudo:{[Op.like]: `%${req.query.pseudo}%`}}
@@ -35,7 +35,7 @@ customersRouter.get("/", auth, (req, res) => {
 });
 
 //Routes GET user avec id
-customersRouter.get("/:id", auth, (req, res) => {
+customersRouter.get("/:id",  (req, res) => {
   // Rechercher un user par sa clé primaire (id)
   Customer.findByPk(req.params.id)
 
